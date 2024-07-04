@@ -9,23 +9,26 @@
     <div class="container">
         <h1>Avaliação de Qualidade de Metadados</h1>
         <div class="tab">
-            <button>Avaliar Dataset</button>
-            <button>Listar Avaliações</button>
+            <button class="linkstab" data-tab="Avaliar">Avaliar Dataset</button>
+            <button class="linkstab" data-tab="Listar">Listar Avaliações</button>
         </div>
 
-        <div id="Avaliar">
+        <div id="Avaliar" class="tabcontent">
             <h2>Avaliar Dataset</h2>
             <input type="file" id="inputArquivo" accept=".xml">
             <button id="botaoAvaliar">Avaliar</button>
             <div id="resultadoAvaliacao"></div>
         </div>
 
-        <div id="Listar">
+        <div id="Listar" class="tabcontent">
             <h2>Datasets Avaliados</h2>
             <ul id="listaDatasets"></ul>
             <div id="detalhesDataset"></div>
         </div>
     </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="index.js"></script> 
     
 </body>
 </html>
