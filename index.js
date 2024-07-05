@@ -29,4 +29,60 @@ function abrirTab(evt, nomeTab) {
     }
 }
 
+async function avaliarDataset() {
+    const arquivo = inputArquivo.files[0];
+    if (!arquivo) {
+        alert('Selecione um arquivo para avaliar');
+        return;
+    }
 
+    const formData = new FormData();
+    formData.append('arquivo', arquivo);
+
+    try {
+        const resposta = await axios.post(`${API_BASE_URL}/avaliar`, formData);
+        resultadoAvaliacao.innerHTML = `
+        <p>Avaliação bem sucedida!</p>
+        <p>Score: ${resposta.data.score}</p>
+        `;
+    } catch (error) {
+        resultadoAvaliacao.innerHTML = `
+        <p>Erro: ${error.response?.data?.erro || 'Um erro ocorreu'}</p>
+        `;	
+    }
+}
+
+async function listarAvaliacoes() {
+    try {
+        const resposta = await axios.get(`${API_BASE_URL}/avaliacoes`);
+        listaDatasets.innerHTML = '';
+        resposta.data.avaliacoes.forEach(dataset => {
+            const li = document.createElement('li');
+            li.textContent = `${dataset.nome_arquivo} - Score: ${dataset.score}`;
+            li.onclick = () => exibirDetalhes(dataset.id);
+            listaDatasets.appendChild(li);
+        });
+    } catch (error) {
+        console.error('Erro ao listar avaliações', error);
+        listaDatasets.innerHTML = '<li>Erro ao listar avaliações</li>';
+    }
+}
+
+async function exibirDetalhes(datasetId) {
+    try {
+        const resposta = await axios.get(`${API_BASE_URL}/avaliacoes/${datasetId}`);
+        const dataset = response.data;
+        datasetDetails.innerHTML = `
+        <h3>Detalhes do dataset</h3>
+        <p>Nome: ${dataset.nome_arquivo}</p>
+        <p>Score: ${dataset.score}</p>
+        <p>Avaliado em: ${new Date(dataset.avaliado_em).toLocaleString()}</p>
+        `;
+    } catch (error) {
+        console.error('Erro ao exibir detalhes do dataset', error);
+        detalhesDataset.innerHTML = '<p>Erro ao exibir detalhes do dataset</p>';
+    }
+}
+
+// Inicializando a primeira aba
+tabBotoes[0].click();
