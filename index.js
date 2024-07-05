@@ -71,8 +71,8 @@ async function listarAvaliacoes() {
 async function exibirDetalhes(datasetId) {
     try {
         const resposta = await axios.get(`${API_BASE_URL}/avaliacoes/${datasetId}`);
-        const dataset = response.data;
-        datasetDetails.innerHTML = `
+        const dataset = resposta.data;
+        detalhesDataset.innerHTML = `
         <h3>Detalhes do dataset</h3>
         <p>Nome: ${dataset.nome_arquivo}</p>
         <p>Score: ${dataset.score}</p>
