@@ -37,7 +37,7 @@ async function avaliarDataset() {
     }
 
     const formData = new FormData();
-    formData.append('arquivo', arquivo);
+    formData.append('file', arquivo);
 
     try {
         const resposta = await axios.post(`${API_BASE_URL}/avaliar`, formData);
